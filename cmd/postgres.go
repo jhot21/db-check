@@ -32,7 +32,6 @@ var postgresCmd = &cobra.Command{
 		}
 		defer conn.Close(timeoutContext)
 
-		var stuff string
-		return conn.QueryRow(timeoutContext, "SELECT 1").Scan(&stuff)
+		return conn.Ping(timeoutContext)
 	},
 }

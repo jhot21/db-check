@@ -36,5 +36,4 @@ func init() {
 
 func initConfig() {
 	viper.AutomaticEnv()
-	// viper.ReadInConfig()
 }

@@ -1,0 +1,31 @@
+version: '3'
+
+vars:
+  REPO: codeberg.org/jhot/db-check
+
+includes:
+  colima:
+    taskfile: https://codeberg.org/jhot/taskfiles/raw/branch/main/colima.yaml
+
+tasks:
+  docker:build:
+    deps: [colima:multiplatform:buildx]
+    env:
+      GIT_AUTH_HEADER: basic
+    cmds:
+      - >
+        docker buildx build
+        {{ if (eq .MAIN "true") }}-t {{.REPO}}:main{{ end }}
+        {{ if (ne .VERSION "") }}-t {{.REPO}}:{{.VERSION}}{{ end }}
+        {{ if (eq .LATEST "true") }}-t {{.REPO}}:latest{{ end }}
+        {{ if (eq .PUSH "true") }}--push{{ end }}
+        {{ if (eq .LOAD "true") }}--load{{ end }}
+        --platform={{.PLATFORM}} .
+    vars:
+      LATEST: '{{ .LATEST | default "false" }}'
+      MAIN: '{{ .MAIN | default "false" }}'
+      VERSION: '{{ .VERSION | default "dev" }}'
+      PUSH: '{{ .PUSH | default "true" }}'
+      LOAD: '{{ .LOAD | default "false" }}'
+      PLATFORM: '{{ .PLATFORM | default "linux/amd64,linux/arm64" }}'
+

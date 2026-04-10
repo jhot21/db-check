@@ -9,7 +9,7 @@ services:
       - MARIADB_ROOT_PASSWORD=evenmoresecret
 
   db-check:
-    image: ghcr.io/jhotmann/db-check:main
+    image: codeberg.org/jhot/db-check:main
     healthcheck:
       test: ["CMD", "/dbcheck", "mysql"] # set database type here
       interval: 15s

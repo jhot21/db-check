@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"fmt"
-
+	"context"
 	"database/sql"
+	"fmt"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -25,23 +25,14 @@ var mysqlCmd = &cobra.Command{
 			viper.GetString("host"),
 			viper.GetString("port"),
 			viper.GetString("name")))
-
 		if err != nil {
 			return fmt.Errorf("error connecting to database: %w", err)
 		}
-
 		defer db.Close()
-		db.SetConnMaxLifetime(time.Minute * 1)
-		db.SetMaxOpenConns(10)
-		db.SetMaxIdleConns(10)
 
-		stmtOut, err := db.Prepare("SELECT 1")
-		if err != nil {
-			return fmt.Errorf("error querying database: %w", err)
-		}
-		defer stmtOut.Close()
+		ctx, cancel := context.WithTimeout(cmd.Context(), 10*time.Second)
+		defer cancel()
 
-		var stuff string
-		return stmtOut.QueryRow().Scan(&stuff)
+		return db.PingContext(ctx)
 	},
 }
