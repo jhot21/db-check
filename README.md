@@ -17,15 +17,19 @@ dbcheck <command> [flags]
 
 ### Flags
 
-| Flag         | Short | Env        | Description       |
-|--------------|-------|------------|-------------------|
-| `--host`     |       | `HOST`     | Database host     |
-| `--port`     | `-p`  | `PORT`     | Database port     |
-| `--name`     | `-n`  | `NAME`     | Database name     |
-| `--user`     | `-u`  | `USER`     | Database username |
-| `--password` |       | `PASSWORD` | Database password |
+| Flag         | Short | Env        | Description                          |
+|--------------|-------|------------|--------------------------------------|
+| `--host`     |       | `HOST`     | Database host                        |
+| `--port`     | `-p`  | `PORT`     | Database port                        |
+| `--name`     | `-n`  | `NAME`     | Database name                        |
+| `--user`     | `-u`  | `USER`     | Database username                    |
+| `--password` |       | `PASSWORD` | Database password                    |
 
 All flags can be set via environment variables (uppercase, no dashes).
+
+### Docker-only: `TYPE`
+
+When run as a container, the `TYPE` environment variable controls which database subcommand the built-in healthcheck runs (`mysql` or `postgres`, default: `mysql`). This is not a CLI flag.
 
 ## Docker Compose Example
 
@@ -35,13 +39,8 @@ Use `db-check` as a sidecar with a healthcheck. Your app declares `depends_on` w
 services:
   db-check:
     image: codeberg.org/jhot/db-check:latest
-    healthcheck:
-      test: ["CMD", "/dbcheck", "mysql"]  # or "postgres"
-      interval: 15s
-      timeout: 35s
-      retries: 5
-      start_period: 10s
     environment:
+      - TYPE=mysql # or postgres
       - HOST=your-db-host
       - PORT=3306
       - USER=myuser

@@ -10,4 +10,8 @@ FROM busybox
 
 COPY --from=builder /dbcheck /dbcheck
 
+ENV TYPE=mysql
+
+HEALTHCHECK --interval=15s --timeout=35s --start-period=30s --retries=5 CMD /dbcheck $TYPE
+
 CMD [ "sleep", "infinity" ]
