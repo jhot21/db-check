@@ -1,0 +1,31 @@
+services:
+  mariadb: # you should just do a healthcheck in here if using a local database, db-check is intended for remote databases
+    image: mariadb:latest
+    environment:
+      - MARIADB_DATABASE=dbcheck
+      - MARIADB_USER=dbchecker
+      - MARIADB_PASSWORD=supersecret
+      - MARIADB_DATABASE=mydb
+      - MARIADB_ROOT_PASSWORD=evenmoresecret
+
+  db-check:
+    image: ghcr.io/jhotmann/db-check:main
+    healthcheck:
+      test: ["CMD", "/dbcheck", "mysql"] # set database type here
+      interval: 15s
+      timeout: 35s
+      retries: 2
+      start_period: 30s
+    environment:
+      - HOST=mariadb
+      - PORT=3306
+      - USER=dbchecker
+      - PASSWORD=supersecret
+      - NAME=mydb
+  
+  app:
+    image: busybox
+    depends_on: # add this to your app that depends on a remote database
+      db-check:
+        condition: service_healthy
+    command: echo "hello"

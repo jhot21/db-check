@@ -6,8 +6,8 @@ COPY . .
 RUN go mod download
 RUN CGO_ENABLED=0 GOOS=linux go build -o /dbcheck
 
-FROM scratch
+FROM busybox
 
 COPY --from=builder /dbcheck /dbcheck
-ENTRYPOINT [ "/dbcheck" ]
-CMD [ "help" ]
+
+CMD [ "sleep", "infinity" ]
