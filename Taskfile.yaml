@@ -1,11 +1,13 @@
 version: '3'
 
 vars:
-  REPO: codeberg.org/jhot/db-check
+  REPO: ghcr.io/jhot21/db-check
 
 includes:
   colima:
-    taskfile: https://codeberg.org/jhot/taskfiles/raw/branch/main/colima.yaml
+    taskfile: https://raw.githubusercontent.com/jhot21/taskfiles/main/colima.yaml
+  git:
+    taskfile: https://raw.githubusercontent.com/jhot21/taskfiles/main/git.yaml
 
 tasks:
   docker:build:

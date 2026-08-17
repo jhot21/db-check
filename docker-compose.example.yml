@@ -9,7 +9,7 @@ services:
       - MARIADB_ROOT_PASSWORD=evenmoresecret
 
   db-check:
-    image: codeberg.org/jhot/db-check:latest
+    image: ghcr.io/jhot21/db-check:latest
     environment:
       - TYPE=mysql # mysql or postgres
       - HOST=mariadb

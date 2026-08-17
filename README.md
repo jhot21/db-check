@@ -38,7 +38,7 @@ Use `db-check` as a sidecar with a healthcheck. Your app declares `depends_on` w
 ```yaml
 services:
   db-check:
-    image: codeberg.org/jhot/db-check:latest
+    image: ghcr.io/jhot21/db-check:latest
     environment:
       - TYPE=mysql # or postgres
       - HOST=your-db-host
@@ -61,7 +61,7 @@ See [docker-compose.example.yml](docker-compose.example.yml) for a full working 
 Pre-built multi-arch images (`linux/amd64`, `linux/arm64`) are available at:
 
 ```
-codeberg.org/jhot/db-check:latest
+ghcr.io/jhot21/db-check:latest
 ```
 
 ## License

@@ -1,4 +1,4 @@
-module codeberg.org/jhot/db-check
+module github.com/jhot21/db-check
 
 go 1.25.0
 

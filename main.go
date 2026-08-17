@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"codeberg.org/jhot/db-check/cmd"
+	"github.com/jhot21/db-check/cmd"
 )
 
 func main() {
