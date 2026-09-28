@@ -1,0 +1,11 @@
+.git
+.github
+.task
+.gitignore
+.dockerignore
+Dockerfile
+*.md
+docker-compose*.yml
+Taskfile.yaml
+mise.toml
+dbcheck

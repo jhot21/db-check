@@ -2,7 +2,6 @@ services:
   mariadb: # you should just do a healthcheck in here if using a local database, db-check is intended for remote databases
     image: mariadb:latest
     environment:
-      - MARIADB_DATABASE=dbcheck
       - MARIADB_USER=dbchecker
       - MARIADB_PASSWORD=supersecret
       - MARIADB_DATABASE=mydb

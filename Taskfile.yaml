@@ -22,6 +22,7 @@ tasks:
         {{ if (eq .LATEST "true") }}-t {{.REPO}}:latest{{ end }}
         {{ if (eq .PUSH "true") }}--push{{ end }}
         {{ if (eq .LOAD "true") }}--load{{ end }}
+        --build-arg VERSION={{.VERSION}}
         --platform={{.PLATFORM}} .
     vars:
       LATEST: '{{ .LATEST | default "false" }}'

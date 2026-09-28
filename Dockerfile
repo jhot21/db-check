@@ -1,10 +1,17 @@
-FROM golang:1 AS builder
+FROM --platform=$BUILDPLATFORM golang:1 AS builder
+
+ARG TARGETOS
+ARG TARGETARCH
+ARG VERSION=dev
 
 WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
 COPY . .
 
-RUN go mod download
-RUN CGO_ENABLED=0 GOOS=linux go build -o /dbcheck
+# Cross-compile natively on the build platform instead of emulating the target.
+RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH \
+    go build -trimpath -ldflags "-s -w -X github.com/jhot21/db-check/cmd.version=$VERSION" -o /dbcheck .
 
 FROM busybox
 
